@@ -1,0 +1,51 @@
+@startuml
+title Tehtävä 0.6
+
+actor Käyttäjä
+
+Käyttäjä->Selain: Käyttäjä kirjoittaa uuden muistiinpanon\nja painaa “Talleta” näppäintä.
+
+note over Selain
+ Javascript koodi on rekisteröinyt entuudestaan
+ tapahtumakäsittelijän “Talleta” näppäimen painallukselle.
+end note
+
+note over Selain
+ Javascript estää POST viestin lähetyksen.
+end note
+
+note over Selain
+ Javascript luo uuden muistiinpanon ja lisää sen
+ muistiinpanojen joukoon. Uuden muistiinpanon kenttä tyhjennetään.
+end note
+
+note over Selain
+ Javascript luo uudestaan “bulletlistan” muistiinpanoista
+ jonka se kirjoittaa HTML koodin sisään käyttäen DOM rajapintaa.
+ Uusi muistiinpano näkyy käyttäjälle.
+end note
+
+Selain->Käyttäjä:
+
+note over Selain
+ Javascript lähettää uuden muistiinpanon palvelimelle
+ osoitteeseen /new_note_spa POST viestinä.
+end note
+
+Selain->Palvelin: POST fullstack-exampleapp.herokuapp.com/new_note_spa
+
+note over Palvelin
+ Palvelin poimii POST viestin rungosta muistiinpanon
+ ja tallentaa sen palvelimelle “notes” taulukkoon. Palvelin
+ palauttaa JSON viestin “note created” statuksella 201.
+end note
+
+Palvelin->Selain: status 201, JSON
+
+note over Selain
+ Selain vastaanottaa JSON viestin, tarkistaa että status on 201
+ ja näyttää viestin selaimen consolissa.
+end note
+
+Selain->Käyttäjä:
+@enduml

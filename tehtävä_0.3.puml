@@ -1,0 +1,53 @@
+@startuml
+title Tehtävä 0.3
+
+actor Käyttäjä
+
+Käyttäjä->Selain: Käyttäjä kirjoittaa osoiteriville\nfullstack-exampleapp.herokuapp.com/notes
+
+note over Selain
+ Selain hakee /notes sivun palvelimelta
+end note
+
+Selain->Palvelin: GET fullstack-exampleapp.herokuapp.com/notes
+Palvelin->Selain: status 200, sivun HTML-koodi
+
+note over Selain
+ HTML-koodin head sisältää link-tagin, jonka ansiosta selain lataa
+ main.css -nimisen tyylitiedoston palvelimelta
+end note
+
+Selain->Palvelin: GET fullstack-exampleapp.herokuapp.com/main.css
+Palvelin->Selain: status 200, main.css
+
+note over Selain
+ HTML-koodin head sisältää script-tagin, jonka ansiosta selain lataa
+ main.js-nimisen javascript-tiedoston palvelimelta
+end note
+
+Selain->Palvelin: GET fullstack-exampleapp.herokuapp.com/main.js
+Palvelin->Selain: status 200, main.js
+
+note over Selain
+ Ladattuaan main.js tiedoston selain suorittaa javascript koodin.
+ Koodi määrää selaimen tekemään GET-tyyppisen HTTP-pyynnön
+ palvelimen osoitteeseen /data.json
+end note
+
+Selain->Palvelin: GET fullstack-exampleapp.herokuapp.com/data.json
+note over Palvelin
+ Palvelin muodostaa “notes” taulukon arvoista
+ JSON merkkijonon ja lähettää sen selaimelle.
+end note
+Palvelin->Selain: status 200, JSON
+
+note over Selain
+ Ladattuaan JSON merkkijonon (statuksella 200) javascript käsittelee
+ sen sisältämän datan ja muodostaa datan avulla “bulletlistan”
+ muistiinpanojen sisällöstä. Javascript kirjoittaa “bulletlistan”
+ HTML koodin sisään käyttäen DOM rajapintaa jonka lopputulos
+ esitetään käyttäjälle.
+end note
+
+Selain->Käyttäjä:
+@enduml
